@@ -16,7 +16,9 @@ for (const requiredText of [
   'View GitHub',
   'Slice 3 shipped',
   'Response deadline planner',
-  'Contributor onboarding'
+  'Contributor onboarding',
+  'https://letter-generator-psi.vercel.app',
+  'https://public-service-directory.vercel.app'
 ]) {
   if (!html.includes(requiredText)) throw new Error(`Missing required GTM copy: ${requiredText}`);
 }

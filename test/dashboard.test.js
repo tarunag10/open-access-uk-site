@@ -31,6 +31,19 @@ test('gtm page links all public GitHub repos', () => {
   }
 });
 
+test('gtm page links each live mini-product page', () => {
+  for (const url of [
+    'https://letter-generator-psi.vercel.app',
+    'https://accessible-forms-two.vercel.app',
+    'https://public-service-directory.vercel.app',
+    'https://legal-templates-seven.vercel.app',
+    'https://design-system-two-delta.vercel.app',
+    'https://good-first-issues-ruby.vercel.app'
+  ]) {
+    assert.ok(html.includes(url), `missing ${url}`);
+  }
+});
+
 test('product and workflow interactions are wired in browser JavaScript', () => {
   assert.equal((html.match(/data-product-panel=/g) || []).length, 6);
   assert.equal((html.match(/data-tool=/g) || []).length, 6);
