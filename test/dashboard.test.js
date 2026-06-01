@@ -43,3 +43,16 @@ test('product and workflow interactions are wired in browser JavaScript', () => 
 test('generated visual concept is referenced as a project asset', () => {
   assert.match(html, /assets\/open-access-uk-gtm-concept\.png/);
 });
+
+test('gtm page advertises the shipped slice 3 workflows', () => {
+  for (const feature of [
+    'Response deadline planner',
+    'Template bundle export',
+    'Remediation reports',
+    'Escalation readiness',
+    'Implementation recipes',
+    'Contributor onboarding'
+  ]) {
+    assert.match(html, new RegExp(feature));
+  }
+});

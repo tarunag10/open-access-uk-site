@@ -13,7 +13,10 @@ for (const requiredText of [
   'Open-source tools for fairer public services',
   'openaccessuk.vercel.app',
   'Explore the toolkit',
-  'View GitHub'
+  'View GitHub',
+  'Slice 3 shipped',
+  'Response deadline planner',
+  'Contributor onboarding'
 ]) {
   if (!html.includes(requiredText)) throw new Error(`Missing required GTM copy: ${requiredText}`);
 }
