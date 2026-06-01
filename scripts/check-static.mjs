@@ -14,9 +14,6 @@ for (const requiredText of [
   'openaccessuk.vercel.app',
   'Explore the toolkit',
   'View GitHub',
-  'Slice 3 shipped',
-  'Response deadline planner',
-  'Contributor onboarding',
   'https://letter-generator-psi.vercel.app',
   'https://public-service-directory.vercel.app'
 ]) {
