@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Open Access UK</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23005ea8'/%3E%3Ctext x='16' y='20' text-anchor='middle' font-family='Arial' font-size='10' font-weight='700' fill='white'%3EOA%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="Open Access UK home">
+      <span class="brand-mark" aria-hidden="true">OA</span>
+      <span>Open Access UK</span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="#repos">Repos</a>
+      <a href="#principles">Principles</a>
+      <a href="#contribute">Contribute</a>
+      <a href="ACCESSIBILITY.md">Accessibility</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <h1>Open Access UK</h1>
+        <p class="lede">Open-source tools for fairer public services: practical, accessible, privacy-first demos that help people draft requests, improve forms, find escalation routes, reuse civic templates, and maintain healthier public-interest projects.</p>
+        <div class="actions" aria-label="Featured actions">
+          <a class="button" href="#repos">Explore the seven repos</a>
+          <a class="button secondary" href="#contribute">Find a contribution path</a>
+        </div>
+      </div>
+      <figure class="concept-frame">
+        <img class="concept" src="assets/open-access-uk-concept.png" alt="Concept mockup showing a civic open-source workspace with public-service tools">
+        <figcaption>No accounts, no server, no hidden data collection. Each demo runs locally in the browser.</figcaption>
+      </figure>
+    </section>
+
+    <section class="trust-strip" aria-label="Project commitments">
+      <div>
+        <strong>Browser-only by default</strong>
+        <span>User input stays on the device unless a future repo has an explicit privacy review.</span>
+      </div>
+      <div>
+        <strong>WCAG 2.2 AA target</strong>
+        <span>Statements, focus styles, semantic markup, and keyboard checks are part of the starter standard.</span>
+      </div>
+      <div>
+        <strong>Information, not legal advice</strong>
+        <span>Tools support drafting and navigation; users should check deadlines, rules, and professional advice where needed.</span>
+      </div>
+    </section>
+
+    <section id="repos" class="section">
+      <div class="section-heading">
+        <h2>Seven repos, one public-service toolkit</h2>
+        <p>Each repository is a small static demo with a README, contribution guide, issue template, accessibility statement, tests, and a clear role in the wider Open Access UK suite.</p>
+      </div>
+
+      <form class="repo-filter" aria-describedby="repo-filter-status">
+        <label for="repo-role-filter">Show repos for role</label>
+        <select id="repo-role-filter" name="repo-role-filter">
+          <option value="all">All roles</option>
+          <option value="law">Law</option>
+          <option value="design">Design</option>
+          <option value="accessibility">Accessibility</option>
+          <option value="civic-tech">Civic tech</option>
+          <option value="maintainer">Maintainer</option>
+        </select>
+        <p id="repo-filter-status" aria-live="polite">Showing all seven repos.</p>
+      </form>
+
+      <div class="repo-grid">
+        <article class="repo-card featured" data-repo-card data-roles="design accessibility civic-tech maintainer">
+          <div>
+            <p class="repo-type">Organisation home</p>
+            <h3>Open Access UK site</h3>
+            <p>The front door for the suite: positioning, navigation, contribution routes, privacy-first commitments, and links across every local project.</p>
+            <dl class="status-dashboard" aria-label="Open Access UK site first-slice status">
+              <div>
+                <dt>Now usable</dt>
+                <dd>Suite overview, repo navigation, contribution routes, and this first-slice dashboard.</dd>
+              </div>
+              <div>
+                <dt>Likely next feature</dt>
+                <dd>Add live issue metadata once the repos are hosted publicly.</dd>
+              </div>
+              <div>
+                <dt>Local demo and README</dt>
+                <dd><a href="index.html">Open demo</a> or <a href="README.md">read setup notes</a>.</dd>
+              </div>
+            </dl>
+          </div>
+          <div class="card-links" aria-label="Open Access UK site links">
+            <a href="index.html">Current demo</a>
+            <a href="README.md">README</a>
+            <a href="CONTRIBUTING.md">Contribute</a>
+            <a href="ACCESSIBILITY.md">Accessibility</a>
+          </div>
+        </article>
+
+        <article class="repo-card" data-repo-card data-roles="law design accessibility">
+          <div>
+            <p class="repo-type">Drafting support</p>
+            <h3>Reasonable Adjustment Letter Generator</h3>
+            <p>Helps people draft UK reasonable-adjustment requests for work, university, interviews, NHS, transport, banks, councils, airlines, and exams.</p>
+            <dl class="status-dashboard" aria-label="Reasonable Adjustment Letter Generator first-slice status">
+              <div>
+                <dt>Now usable</dt>
+                <dd>Browser-only form that produces editable reasonable-adjustment request text.</dd>
+              </div>
+              <div>
+                <dt>Likely next feature</dt>
+                <dd>Add more context-specific wording and source notes for reviewers.</dd>
+              </div>
+              <div>
+                <dt>Local demo and README</dt>
+                <dd><a href="../letter-generator/index.html">Open demo</a> or <a href="../letter-generator/README.md">read setup notes</a>.</dd>
+              </div>
+            </dl>
+          </div>
+          <div class="card-links" aria-label="Reasonable Adjustment Letter Generator links">
+            <a href="../letter-generator/index.html">Demo</a>
+            <a href="../letter-generator/README.md">README</a>
+            <a href="../letter-generator/CONTRIBUTING.md">Contribute</a>
+            <a href="../letter-generator/ACCESSIBILITY.md">Accessibility</a>
+          </div>
+        </article>
+
+        <article class="repo-card" data-repo-card data-roles="design accessibility civic-tech">
+          <div>
+            <p class="repo-type">Service patterns</p>
+            <h3>Accessible Public Forms</h3>
+            <p>Reusable GOV.UK-style public-service form examples with visible labels, clear errors, keyboard-friendly controls, and no forced account creation.</p>
+            <dl class="status-dashboard" aria-label="Accessible Public Forms first-slice status">
+              <div>
+                <dt>Now usable</dt>
+                <dd>Static examples for labelled form controls, clear errors, and keyboard-friendly flows.</dd>
+              </div>
+              <div>
+                <dt>Likely next feature</dt>
+                <dd>Add more public-service form journeys with validation examples.</dd>
+              </div>
+              <div>
+                <dt>Local demo and README</dt>
+                <dd><a href="../accessible-forms/index.html">Open demo</a> or <a href="../accessible-forms/README.md">read setup notes</a>.</dd>
+              </div>
+            </dl>
+          </div>
+          <div class="card-links" aria-label="Accessible Public Forms links">
+            <a href="../accessible-forms/index.html">Demo</a>
+            <a href="../accessible-forms/README.md">README</a>
+            <a href="../accessible-forms/CONTRIBUTING.md">Contribute</a>
+            <a href="../accessible-forms/ACCESSIBILITY.md">Accessibility</a>
+          </div>
+        </article>
+
+        <article class="repo-card" data-repo-card data-roles="law accessibility civic-tech">
+          <div>
+            <p class="repo-type">Escalation routes</p>
+            <h3>Public Service Directory</h3>
+            <p>Maps common public-service issues to support routes and ombudsman-style escalation options without collecting personal data.</p>
+            <dl class="status-dashboard" aria-label="Public Service Directory first-slice status">
+              <div>
+                <dt>Now usable</dt>
+                <dd>Static directory patterns for support routes and escalation options.</dd>
+              </div>
+              <div>
+                <dt>Likely next feature</dt>
+                <dd>Expand source-backed entries and add clearer eligibility caveats.</dd>
+              </div>
+              <div>
+                <dt>Local demo and README</dt>
+                <dd><a href="../public-service-directory/index.html">Open demo</a> or <a href="../public-service-directory/README.md">read setup notes</a>.</dd>
+              </div>
+            </dl>
+          </div>
+          <div class="card-links" aria-label="Public Service Directory links">
+            <a href="../public-service-directory/index.html">Demo</a>
+            <a href="../public-service-directory/README.md">README</a>
+            <a href="../public-service-directory/CONTRIBUTING.md">Contribute</a>
+            <a href="../public-service-directory/ACCESSIBILITY.md">Accessibility</a>
+          </div>
+        </article>
+
+        <article class="repo-card" data-repo-card data-roles="law design civic-tech">
+          <div>
+            <p class="repo-type">Template library</p>
+            <h3>Legal Templates UK</h3>
+            <p>Plain-English civic and legal letter templates intended for drafting support, source checking, and community review, not personalised legal advice.</p>
+            <dl class="status-dashboard" aria-label="Legal Templates UK first-slice status">
+              <div>
+                <dt>Now usable</dt>
+                <dd>Plain-English template examples with informational safety framing.</dd>
+              </div>
+              <div>
+                <dt>Likely next feature</dt>
+                <dd>Add stronger source notes, review status labels, and template categories.</dd>
+              </div>
+              <div>
+                <dt>Local demo and README</dt>
+                <dd><a href="../legal-templates/index.html">Open demo</a> or <a href="../legal-templates/README.md">read setup notes</a>.</dd>
+              </div>
+            </dl>
+          </div>
+          <div class="card-links" aria-label="Legal Templates UK links">
+            <a href="../legal-templates/index.html">Demo</a>
+            <a href="../legal-templates/README.md">README</a>
+            <a href="../legal-templates/CONTRIBUTING.md">Contribute</a>
+            <a href="../legal-templates/ACCESSIBILITY.md">Accessibility</a>
+          </div>
+        </article>
+
+        <article class="repo-card" data-repo-card data-roles="design accessibility maintainer">
+          <div>
+            <p class="repo-type">Shared UI</p>
+            <h3>Open Access Design System</h3>
+            <p>Accessible tokens, components, copy patterns, and public-service UI foundations for consistent high-contrast civic tools.</p>
+            <dl class="status-dashboard" aria-label="Open Access Design System first-slice status">
+              <div>
+                <dt>Now usable</dt>
+                <dd>Shared colour tokens, component examples, and copy patterns for the suite.</dd>
+              </div>
+              <div>
+                <dt>Likely next feature</dt>
+                <dd>Add component usage guidance and reusable accessibility acceptance checks.</dd>
+              </div>
+              <div>
+                <dt>Local demo and README</dt>
+                <dd><a href="../design-system/index.html">Open demo</a> or <a href="../design-system/README.md">read setup notes</a>.</dd>
+              </div>
+            </dl>
+          </div>
+          <div class="card-links" aria-label="Open Access Design System links">
+            <a href="../design-system/index.html">Demo</a>
+            <a href="../design-system/README.md">README</a>
+            <a href="../design-system/CONTRIBUTING.md">Contribute</a>
+            <a href="../design-system/ACCESSIBILITY.md">Accessibility</a>
+          </div>
+        </article>
+
+        <article class="repo-card" data-repo-card data-roles="accessibility civic-tech maintainer">
+          <div>
+            <p class="repo-type">Maintainer support</p>
+            <h3>Open Source Maintainer Helper</h3>
+            <p>Checks project readiness and suggests contributor-friendly issue ideas for docs, accessibility, security, and starter governance gaps.</p>
+            <dl class="status-dashboard" aria-label="Open Source Maintainer Helper first-slice status">
+              <div>
+                <dt>Now usable</dt>
+                <dd>Local readiness prompts and good-first issue ideas for public-interest repos.</dd>
+              </div>
+              <div>
+                <dt>Likely next feature</dt>
+                <dd>Add exportable issue drafts and stronger repository health scoring.</dd>
+              </div>
+              <div>
+                <dt>Local demo and README</dt>
+                <dd><a href="../good-first-issues/index.html">Open demo</a> or <a href="../good-first-issues/README.md">read setup notes</a>.</dd>
+              </div>
+            </dl>
+          </div>
+          <div class="card-links" aria-label="Open Source Maintainer Helper links">
+            <a href="../good-first-issues/index.html">Demo</a>
+            <a href="../good-first-issues/README.md">README</a>
+            <a href="../good-first-issues/CONTRIBUTING.md">Contribute</a>
+            <a href="../good-first-issues/ACCESSIBILITY.md">Accessibility</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="principles" class="section principle-band">
+      <div class="section-heading">
+        <h2>How the suite should behave</h2>
+        <p>The recommendation brief points toward practical public-interest tools that are safe to inspect, easy to fork, and honest about their limits.</p>
+      </div>
+      <div class="principle-list">
+        <article>
+          <h3>Keep it local</h3>
+          <p>Prefer static HTML, CSS, and JavaScript. Do not add a backend, analytics, or personal-data collection without a public privacy review.</p>
+        </article>
+        <article>
+          <h3>Design for access needs first</h3>
+          <p>Use semantic HTML, visible focus states, clear labels, plain language, high contrast colours, and keyboard-only testing before visual polish.</p>
+        </article>
+        <article>
+          <h3>Show sources and limits</h3>
+          <p>Directory entries and templates should be sourceable. Drafting tools must avoid claiming to decide rights, outcomes, or legal strategy.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="contribute" class="section contribution-section">
+      <div class="section-heading">
+        <h2>Choose a contribution path</h2>
+        <p>Open Access UK needs more than code. Pick the route closest to your expertise, then open the relevant repo contribution guide or a good-first issue.</p>
+      </div>
+
+      <div class="contribution-layout">
+        <form class="path-finder" aria-describedby="path-help">
+          <label for="contributor-path">I can help with</label>
+          <select id="contributor-path" name="contributor-path">
+            <option value="law">Law and advice-sector review</option>
+            <option value="design">Service design and plain English</option>
+            <option value="accessibility">Accessibility testing</option>
+            <option value="civic-tech">Civic tech and static tooling</option>
+            <option value="maintainer">Maintainer experience</option>
+          </select>
+          <button type="button" id="path-button">Show path</button>
+          <p id="path-help">This selector runs entirely in your browser and updates the recommendation below.</p>
+        </form>
+
+        <article class="path-output" aria-live="polite">
+          <h3 id="path-title">Law and advice-sector review</h3>
+          <p id="path-description">Check template wording for clarity, flag missing source notes, and make sure user-facing copy stays informational rather than advice-giving.</p>
+          <div id="path-links" class="card-links" aria-label="Suggested contribution links">
+            <a href="../legal-templates/CONTRIBUTING.md">Legal templates guide</a>
+            <a href="../letter-generator/CONTRIBUTING.md">Letter generator guide</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <footer class="footer-band">
+      <div>
+        <h2>Build in public, keep trust visible</h2>
+        <p>Code is MIT licensed. Content and templates should use attribution-friendly terms where marked. Each project carries its own accessibility statement and safety note.</p>
+      </div>
+      <p class="copyright">Open Access UK contributors <span id="year"></span></p>
+    </footer>
+  </main>
+
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
