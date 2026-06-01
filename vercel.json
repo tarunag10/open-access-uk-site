@@ -1,5 +1,6 @@
 {
-  "name": "openaccessuk",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".",
   "cleanUrls": true,
   "trailingSlash": false,
   "headers": [
