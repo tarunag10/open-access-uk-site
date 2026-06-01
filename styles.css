@@ -255,7 +255,8 @@ figcaption {
 .repo-card,
 .path-output,
 .path-finder,
-.principle-list article {
+.principle-list article,
+.roadmap-board article {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
@@ -284,6 +285,7 @@ figcaption {
 }
 
 .repo-card h3,
+.roadmap-board h3,
 .path-output h3,
 .principle-list h3 {
   margin: 0 0 10px;
@@ -341,6 +343,31 @@ figcaption {
 .card-links a:hover {
   border-color: var(--blue);
   background: var(--soft-blue);
+}
+
+.roadmap-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.roadmap-board article {
+  padding: 18px;
+}
+
+.roadmap-board ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.roadmap-board li {
+  color: var(--muted);
+}
+
+.roadmap-board strong {
+  color: var(--ink);
 }
 
 .principle-band {
@@ -435,7 +462,8 @@ select {
   }
 
   .trust-strip,
-  .principle-list {
+  .principle-list,
+  .roadmap-board {
     grid-template-columns: 1fr;
   }
 
