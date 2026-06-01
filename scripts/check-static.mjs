@@ -21,7 +21,7 @@ for (const requiredText of [
 }
 
 const toolCards = html.match(/data-tool=/g) || [];
-if (toolCards.length !== 6) throw new Error(`Expected 6 toolkit cards, found ${toolCards.length}`);
+if (toolCards.length !== 5) throw new Error(`Expected 5 toolkit cards, found ${toolCards.length}`);
 
 const workflowCards = html.match(/data-workflow=/g) || [];
 if (workflowCards.length !== 4) throw new Error(`Expected 4 workflow cards, found ${workflowCards.length}`);
@@ -32,8 +32,7 @@ for (const slug of [
   'accessible-forms',
   'public-service-directory',
   'legal-templates',
-  'design-system',
-  'good-first-issues'
+  'design-system'
 ]) {
   if (!html.includes(`https://github.com/tarunag10/${slug}`)) {
     throw new Error(`Missing GitHub link: ${slug}`);

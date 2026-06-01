@@ -329,7 +329,6 @@ a:focus-visible {
 .card-map { top: 194px; left: 54px; }
 .card-template { top: 188px; right: 0; }
 .card-design { top: 342px; left: 56px; }
-.card-maintainer { top: 338px; right: 22px; }
 
 .terminal-card {
   left: 74px;
@@ -475,7 +474,6 @@ a:focus-visible {
 .tool-icon.lime { background: #8abf24; }
 .tool-icon.violet { background: #6c4cff; }
 .tool-icon.cyan { background: #0ca6c8; }
-.tool-icon.amber { background: #c66a08; }
 
 .tool-card h3,
 .workflow-card strong,
@@ -799,8 +797,7 @@ pre {
   .terminal-card,
   .card-map,
   .card-template,
-  .card-design,
-  .card-maintainer {
+  .card-design {
     display: none;
   }
 

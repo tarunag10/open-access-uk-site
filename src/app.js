@@ -16,8 +16,8 @@ const workflows = {
   },
   contribute: {
     title: 'Build or contribute',
-    body: 'Use the maintainer helper to spot missing docs, generate GitHub issue text, and help new contributors land useful first changes.',
-    steps: ['Choose a repo health preset.', 'Generate grouped recommendations.', 'Copy issue text to GitHub.']
+    body: 'Start from the parent GitHub repo, choose a public tool, and use contributor docs to make a focused improvement.',
+    steps: ['Open the parent repo.', 'Pick a focused issue or improvement.', 'Run the relevant checks before opening a pull request.']
   }
 };
 
