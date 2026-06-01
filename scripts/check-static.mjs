@@ -8,21 +8,38 @@ if (!html.includes('<label') && !html.includes('aria-label') && !html.includes('
 }
 if (!html.includes('aria-')) throw new Error('Missing ARIA marker for dynamic UI');
 
-const repoCards = html.match(/data-repo-card/g) || [];
-if (repoCards.length !== 7) throw new Error(`Expected 7 repo dashboard cards, found ${repoCards.length}`);
-
-const statusSections = html.match(/class="status-dashboard"/g) || [];
-if (statusSections.length !== 7) throw new Error(`Expected 7 status dashboards, found ${statusSections.length}`);
-
-for (const requiredText of ['Now usable', 'Likely next feature', 'Local demo and README']) {
-  const matches = html.match(new RegExp(requiredText, 'g')) || [];
-  if (matches.length !== 7) throw new Error(`Expected ${requiredText} on each repo card`);
+for (const requiredText of [
+  'Open Access UK',
+  'Open-source tools for fairer public services',
+  'openaccessuk.vercel.app',
+  'Explore the toolkit',
+  'View GitHub'
+]) {
+  if (!html.includes(requiredText)) throw new Error(`Missing required GTM copy: ${requiredText}`);
 }
 
-for (const role of ['law', 'design', 'accessibility', 'civic-tech', 'maintainer']) {
-  if (!html.includes(`value="${role}"`)) throw new Error(`Missing role filter option: ${role}`);
-  if (!app.includes(role)) throw new Error(`Role filter is not wired in src/app.js: ${role}`);
+const toolCards = html.match(/data-tool=/g) || [];
+if (toolCards.length !== 6) throw new Error(`Expected 6 toolkit cards, found ${toolCards.length}`);
+
+const workflowCards = html.match(/data-workflow=/g) || [];
+if (workflowCards.length !== 4) throw new Error(`Expected 4 workflow cards, found ${workflowCards.length}`);
+
+for (const slug of [
+  'open-access-uk',
+  'letter-generator',
+  'accessible-forms',
+  'public-service-directory',
+  'legal-templates',
+  'design-system',
+  'good-first-issues'
+]) {
+  if (!html.includes(`https://github.com/tarunag10/${slug}`)) {
+    throw new Error(`Missing GitHub link: ${slug}`);
+  }
 }
 
-if (!app.includes('filterRepos')) throw new Error('Missing browser-only repo filter function');
+for (const requiredFunction of ['renderWorkflow', 'activateTool', 'writeText']) {
+  if (!app.includes(requiredFunction)) throw new Error(`Missing browser interaction: ${requiredFunction}`);
+}
+
 console.log('Static accessibility smoke check passed');
