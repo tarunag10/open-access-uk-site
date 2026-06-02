@@ -4,6 +4,7 @@ import test from 'node:test';
 
 const html = fs.readFileSync('index.html', 'utf8');
 const app = fs.readFileSync('src/app.js', 'utf8');
+const repositories = fs.readFileSync('src/repositories.js', 'utf8');
 const vercel = fs.readFileSync('vercel.json', 'utf8');
 
 test('gtm page has the required brand, nav, and primary actions', () => {
@@ -12,7 +13,15 @@ test('gtm page has the required brand, nav, and primary actions', () => {
   assert.match(html, /openaccessuk\.vercel\.app/);
   assert.match(html, /Explore the toolkit/);
   assert.match(html, /View GitHub/);
-  for (const section of ['toolkit', 'workflows', 'design', 'github', 'roadmap']) {
+  for (const section of [
+    'toolkit',
+    'workflows',
+    'design',
+    'github',
+    'source-safety',
+    'privacy',
+    'roadmap'
+  ]) {
     assert.match(html, new RegExp(`href="#${section}"`));
     assert.match(html, new RegExp(`id="${section}"`));
   }
@@ -56,10 +65,26 @@ test('product and workflow interactions are wired in browser JavaScript', () => 
   assert.equal((html.match(/data-tool=/g) || []).length, 5);
   assert.equal((html.match(/data-workflow=/g) || []).length, 4);
   assert.match(app, /function renderWorkflow/);
+  assert.match(app, /publicRepositories/);
+  assert.match(app, /function renderToolCards/);
   assert.match(app, /function activateTool/);
   assert.match(app, /navigator\.clipboard\.writeText/);
   assert.doesNotMatch(app, /workflowDetail\.innerHTML/);
   assert.match(app, /replaceChildren/);
+});
+
+test('homepage tool cards are backed by generated repository metadata', () => {
+  for (const expected of [
+    'Reasonable Adjustment Letter Generator',
+    'Accessible Public Forms',
+    'Public Service Directory',
+    'Legal Templates UK',
+    'Open Access Design System'
+  ]) {
+    assert.match(repositories, new RegExp(expected));
+  }
+  assert.match(repositories, /risk_level/);
+  assert.match(repositories, /githubUrl/);
 });
 
 test('homepage accessibility controls are wired', () => {
@@ -87,4 +112,13 @@ test('generated visual concept is referenced as a project asset', () => {
 test('gtm page does not expose internal slice labels', () => {
   assert.doesNotMatch(html, /Slice \d/i);
   assert.doesNotMatch(html, /slice \d/i);
+});
+
+test('source safety and privacy centre sections are visible', () => {
+  assert.match(html, /id="source-safety"/);
+  assert.match(html, /not legal advice/i);
+  assert.match(html, /report stale content/i);
+  assert.match(html, /id="privacy"/);
+  assert.match(html, /Local-first means you stay in control/);
+  assert.match(html, /No hidden collection/);
 });

@@ -12,6 +12,8 @@ if (!html.includes('rel="canonical"')) throw new Error('Missing canonical metada
 if (!html.includes('site.webmanifest')) throw new Error('Missing web manifest link');
 if (!html.includes('aria-pressed="true"')) throw new Error('Missing workflow selected state');
 if (!html.includes('id="copy-status"')) throw new Error('Missing copy status live region');
+if (!html.includes('id="source-safety"')) throw new Error('Missing source/safety section');
+if (!html.includes('id="privacy"')) throw new Error('Missing privacy centre section');
 if (app.includes('workflowDetail.innerHTML'))
   throw new Error('Workflow rendering must avoid innerHTML');
 if (!app.includes('replaceChildren'))
@@ -50,7 +52,7 @@ for (const slug of [
   }
 }
 
-for (const requiredFunction of ['renderWorkflow', 'activateTool', 'writeText']) {
+for (const requiredFunction of ['renderWorkflow', 'renderToolCards', 'activateTool', 'writeText']) {
   if (!app.includes(requiredFunction))
     throw new Error(`Missing browser interaction: ${requiredFunction}`);
 }

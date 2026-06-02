@@ -1,15 +1,49 @@
 import { track } from './analytics.js';
 import { setPressed, setStatus, textElement } from './dom.js';
+import { publicRepositories } from './repositories.js';
 import { workflows } from './workflows.js';
 
 const workflowDetail = document.querySelector('#workflow-detail');
 const workflowCards = [...document.querySelectorAll('[data-workflow]')];
 const productPanels = [...document.querySelectorAll('[data-product-panel]')];
-const toolCards = [...document.querySelectorAll('[data-tool]')];
 const copyTokens = document.querySelector('#copyTokens');
 const copyStatus = document.querySelector('#copy-status');
 const navToggle = document.querySelector('.nav-toggle');
 const primaryNav = document.querySelector('#primary-nav');
+
+function renderToolCards() {
+  const grid = document.querySelector('[data-tool-grid]');
+  if (!grid || !publicRepositories.length) return;
+
+  const cards = publicRepositories.map((repo, index) => {
+    const article = document.createElement('article');
+    article.className = `tool-card${index === 0 ? ' is-active' : ''}`;
+    article.dataset.tool = repo.toolKey;
+
+    const icon = textElement('span', repo.icon);
+    icon.className = `tool-icon ${repo.iconClass}`;
+
+    const heading = textElement('h3', repo.name);
+    const summary = textElement('p', repo.summary);
+    const risk = textElement('p', `${repo.risk_level} risk · ${repo.status}`);
+    risk.className = 'tool-meta';
+
+    const links = document.createElement('div');
+    links.className = 'tool-links';
+    const demo = document.createElement('a');
+    demo.href = repo.demo;
+    demo.textContent = 'Launch tool →';
+    const github = document.createElement('a');
+    github.href = repo.githubUrl;
+    github.textContent = 'GitHub';
+    links.append(demo, github);
+
+    article.append(icon, heading, summary, risk, links);
+    return article;
+  });
+
+  grid.replaceChildren(...cards);
+}
 
 function renderWorkflow(key) {
   const workflow = workflows[key] || workflows.information;
@@ -26,7 +60,9 @@ function renderWorkflow(key) {
 }
 
 function activateTool(key) {
-  toolCards.forEach((card) => card.classList.toggle('is-active', card.dataset.tool === key));
+  [...document.querySelectorAll('[data-tool]')].forEach((card) =>
+    card.classList.toggle('is-active', card.dataset.tool === key)
+  );
   productPanels.forEach((panel) => {
     panel.style.borderColor = panel.dataset.productPanel === key ? 'rgba(100, 210, 255, 0.72)' : '';
     panel.style.transform = panel.dataset.productPanel === key ? 'translateY(-4px)' : '';
@@ -54,10 +90,12 @@ workflowCards.forEach((card) => {
   });
 });
 
-toolCards.forEach((card) => {
-  card.addEventListener('mouseenter', () => activateTool(card.dataset.tool));
-  card.addEventListener('focusin', () => activateTool(card.dataset.tool));
-});
+function bindToolCards() {
+  [...document.querySelectorAll('[data-tool]')].forEach((card) => {
+    card.addEventListener('mouseenter', () => activateTool(card.dataset.tool));
+    card.addEventListener('focusin', () => activateTool(card.dataset.tool));
+  });
+}
 
 navToggle?.addEventListener('click', () => {
   const open = navToggle.getAttribute('aria-expanded') !== 'true';
@@ -86,4 +124,6 @@ copyTokens?.addEventListener('click', async () => {
   }, 1800);
 });
 
+renderToolCards();
+bindToolCards();
 renderWorkflow('information');
