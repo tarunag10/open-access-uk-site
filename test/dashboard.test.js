@@ -4,6 +4,7 @@ import test from 'node:test';
 
 const html = fs.readFileSync('index.html', 'utf8');
 const app = fs.readFileSync('src/app.js', 'utf8');
+const vercel = fs.readFileSync('vercel.json', 'utf8');
 
 test('gtm page has the required brand, nav, and primary actions', () => {
   assert.match(html, /<h1 id="hero-title">Open Access UK<\/h1>/);
@@ -15,6 +16,14 @@ test('gtm page has the required brand, nav, and primary actions', () => {
     assert.match(html, new RegExp(`href="#${section}"`));
     assert.match(html, new RegExp(`id="${section}"`));
   }
+});
+
+test('gtm page includes SEO and social metadata', () => {
+  assert.match(html, /rel="canonical" href="https:\/\/openaccessuk\.vercel\.app\//);
+  assert.match(html, /property="og:url" content="https:\/\/openaccessuk\.vercel\.app\//);
+  assert.match(html, /name="twitter:card" content="summary_large_image"/);
+  assert.match(html, /name="robots" content="index, follow"/);
+  assert.match(html, /rel="manifest" href="\/site\.webmanifest"/);
 });
 
 test('gtm page links all public GitHub repos', () => {
@@ -49,6 +58,25 @@ test('product and workflow interactions are wired in browser JavaScript', () => 
   assert.match(app, /function renderWorkflow/);
   assert.match(app, /function activateTool/);
   assert.match(app, /navigator\.clipboard\.writeText/);
+  assert.doesNotMatch(app, /workflowDetail\.innerHTML/);
+  assert.match(app, /replaceChildren/);
+});
+
+test('homepage accessibility controls are wired', () => {
+  assert.match(html, /class="nav-toggle"/);
+  assert.match(html, /aria-expanded="false"/);
+  assert.equal((html.match(/aria-pressed="/g) || []).length, 4);
+  assert.match(html, /id="copy-status"/);
+  assert.match(app, /setAttribute\('aria-expanded'/);
+  assert.match(app, /setPressed/);
+  assert.match(app, /ArrowRight/);
+});
+
+test('security headers are configured for Vercel', () => {
+  assert.match(vercel, /Content-Security-Policy/);
+  assert.match(vercel, /Permissions-Policy/);
+  assert.match(vercel, /X-Frame-Options/);
+  assert.match(vercel, /Referrer-Policy/);
 });
 
 test('generated visual concept is referenced as a project asset', () => {

@@ -1,48 +1,29 @@
-const workflows = {
-  information: {
-    title: 'Get information',
-    body: 'Start with a letter or template, keep the request focused, export a copy, and use the directory to understand where to go next.',
-    steps: ['Choose a request type.', 'Draft locally in the browser.', 'Export a copy and track replies.']
-  },
-  forms: {
-    title: 'Fix an inaccessible form',
-    body: 'Use the accessible forms library to inspect a service journey, identify missing labels or grouped-control issues, and export a shareable JSON spec.',
-    steps: ['Pick a public-service form pattern.', 'Review readiness and notes.', 'Copy or download the improved spec.']
-  },
-  escalate: {
-    title: 'Escalate a case',
-    body: 'Map the right escalation route, gather evidence, save a local plan, and keep official links close to the next action.',
-    steps: ['Search the issue.', 'Build an action plan.', 'Save or print the checklist.']
-  },
-  contribute: {
-    title: 'Build or contribute',
-    body: 'Start from the parent GitHub repo, choose a public tool, and use contributor docs to make a focused improvement.',
-    steps: ['Open the parent repo.', 'Pick a focused issue or improvement.', 'Run the relevant checks before opening a pull request.']
-  }
-};
+import { track } from './analytics.js';
+import { setPressed, setStatus, textElement } from './dom.js';
+import { workflows } from './workflows.js';
 
 const workflowDetail = document.querySelector('#workflow-detail');
 const workflowCards = [...document.querySelectorAll('[data-workflow]')];
+const productPanels = [...document.querySelectorAll('[data-product-panel]')];
+const toolCards = [...document.querySelectorAll('[data-tool]')];
+const copyTokens = document.querySelector('#copyTokens');
+const copyStatus = document.querySelector('#copy-status');
+const navToggle = document.querySelector('.nav-toggle');
+const primaryNav = document.querySelector('#primary-nav');
 
 function renderWorkflow(key) {
   const workflow = workflows[key] || workflows.information;
   if (!workflowDetail) return;
-  workflowDetail.innerHTML = `
-    <h3>${workflow.title}</h3>
-    <p>${workflow.body}</p>
-    <ol>${workflow.steps.map((step) => `<li>${step}</li>`).join('')}</ol>
-  `;
-  workflowCards.forEach((card) => {
-    card.classList.toggle('is-selected', card.dataset.workflow === key);
-  });
+
+  const heading = textElement('h3', workflow.title);
+  const body = textElement('p', workflow.body);
+  const list = document.createElement('ol');
+  workflow.steps.forEach((step) => list.append(textElement('li', step)));
+
+  workflowDetail.replaceChildren(heading, body, list);
+  setPressed(workflowCards, key);
+  track('workflow_selected', { key });
 }
-
-workflowCards.forEach((card) => {
-  card.addEventListener('click', () => renderWorkflow(card.dataset.workflow));
-});
-
-const productPanels = [...document.querySelectorAll('[data-product-panel]')];
-const toolCards = [...document.querySelectorAll('[data-tool]')];
 
 function activateTool(key) {
   toolCards.forEach((card) => card.classList.toggle('is-active', card.dataset.tool === key));
@@ -52,19 +33,53 @@ function activateTool(key) {
   });
 }
 
+function selectAdjacentWorkflow(current, direction) {
+  const index = workflowCards.indexOf(current);
+  const next = workflowCards[(index + direction + workflowCards.length) % workflowCards.length];
+  next?.focus();
+  if (next?.dataset.workflow) renderWorkflow(next.dataset.workflow);
+}
+
+workflowCards.forEach((card) => {
+  card.addEventListener('click', () => renderWorkflow(card.dataset.workflow));
+  card.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      event.preventDefault();
+      selectAdjacentWorkflow(card, 1);
+    }
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      selectAdjacentWorkflow(card, -1);
+    }
+  });
+});
+
 toolCards.forEach((card) => {
   card.addEventListener('mouseenter', () => activateTool(card.dataset.tool));
   card.addEventListener('focusin', () => activateTool(card.dataset.tool));
 });
 
-const copyTokens = document.querySelector('#copyTokens');
+navToggle?.addEventListener('click', () => {
+  const open = navToggle.getAttribute('aria-expanded') !== 'true';
+  navToggle.setAttribute('aria-expanded', String(open));
+  primaryNav?.classList.toggle('is-open', open);
+});
+
+primaryNav?.addEventListener('click', (event) => {
+  if (!event.target.closest('a')) return;
+  navToggle?.setAttribute('aria-expanded', 'false');
+  primaryNav.classList.remove('is-open');
+});
+
 copyTokens?.addEventListener('click', async () => {
   const tokenText = document.querySelector('.code-window code')?.textContent.trim() || '';
   try {
     await navigator.clipboard.writeText(tokenText);
     copyTokens.textContent = 'Copied';
+    setStatus(copyStatus, 'Design tokens copied.');
   } catch {
     copyTokens.textContent = 'Select and copy';
+    setStatus(copyStatus, 'Copy failed. Select and copy the tokens manually.');
   }
   window.setTimeout(() => {
     copyTokens.textContent = 'Copy tokens';

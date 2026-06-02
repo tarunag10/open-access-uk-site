@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://openaccessuk.vercel.app/sitemap.xml

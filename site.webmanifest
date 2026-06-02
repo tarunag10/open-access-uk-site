@@ -1,0 +1,10 @@
+{
+  "name": "Open Access UK",
+  "short_name": "Open Access UK",
+  "description": "Open-source tools for fairer public services.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#03070c",
+  "theme_color": "#03070c",
+  "icons": []
+}
