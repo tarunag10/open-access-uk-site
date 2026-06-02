@@ -2,7 +2,7 @@
 export const publicRepositories = [
   {
     "id": "letter-generator",
-    "name": "Reasonable Adjustment Letter Generator",
+    "name": "Public-Service Letter Generator",
     "repo": "tarunag10/letter-generator",
     "demo": "https://letter-generator-psi.vercel.app/",
     "category": "letters",

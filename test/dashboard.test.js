@@ -75,7 +75,7 @@ test('product and workflow interactions are wired in browser JavaScript', () => 
 
 test('homepage tool cards are backed by generated repository metadata', () => {
   for (const expected of [
-    'Reasonable Adjustment Letter Generator',
+    'Public-Service Letter Generator',
     'Accessible Public Forms',
     'Public Service Directory',
     'Legal Templates UK',
