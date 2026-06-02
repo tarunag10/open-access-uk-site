@@ -80,6 +80,7 @@ test('security headers are configured for Vercel', () => {
 });
 
 test('generated visual concept is referenced as a project asset', () => {
+  assert.match(html, /assets\/open-access-uk-gtm-concept\.webp/);
   assert.match(html, /assets\/open-access-uk-gtm-concept\.png/);
 });
 
