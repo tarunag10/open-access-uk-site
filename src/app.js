@@ -1,3 +1,4 @@
+import { initTheme } from './theme.js';
 import { track } from './analytics.js';
 import { setPressed, setStatus, textElement } from './dom.js';
 import { publicRepositories } from './repositories.js';
@@ -127,3 +128,5 @@ copyTokens?.addEventListener('click', async () => {
 renderToolCards();
 bindToolCards();
 renderWorkflow('information');
+
+initTheme('#theme-toggle');

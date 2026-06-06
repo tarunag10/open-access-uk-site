@@ -90,7 +90,8 @@ test('homepage tool cards are backed by generated repository metadata', () => {
 test('homepage accessibility controls are wired', () => {
   assert.match(html, /class="nav-toggle"/);
   assert.match(html, /aria-expanded="false"/);
-  assert.equal((html.match(/aria-pressed="/g) || []).length, 4);
+  // 4 workflow cards + 1 theme toggle = 5 aria-pressed controls.
+  assert.equal((html.match(/aria-pressed="/g) || []).length, 5);
   assert.match(html, /id="copy-status"/);
   assert.match(app, /setAttribute\('aria-expanded'/);
   assert.match(app, /setPressed/);
