@@ -3,6 +3,9 @@ import { track } from './analytics.js';
 import { setPressed, setStatus, textElement } from './dom.js';
 import { publicRepositories } from './repositories.js';
 import { workflows } from './workflows.js';
+import { initPrivacyCentre } from './privacy-centre.js';
+import { initCommandPalette } from './command-palette.js';
+import { initContinue } from './continue.js';
 
 const workflowDetail = document.querySelector('#workflow-detail');
 const workflowCards = [...document.querySelectorAll('[data-workflow]')];
@@ -130,3 +133,6 @@ bindToolCards();
 renderWorkflow('information');
 
 initTheme('#theme-toggle');
+initPrivacyCentre('#privacy-centre');
+initCommandPalette({ root: document });
+initContinue('#continue');

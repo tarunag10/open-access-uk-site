@@ -50,12 +50,47 @@
         <a href="#roadmap">Roadmap</a>
       </nav>
       <a class="header-cta" href="#toolkit">Explore the toolkit</a>
+      <button
+        id="command-open"
+        class="theme-toggle"
+        type="button"
+        aria-haspopup="dialog"
+        aria-controls="command-palette"
+      >
+        Search (⌘K)
+      </button>
       <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false">
         Dark theme
       </button>
     </header>
 
     <main id="main">
+      <div
+        id="command-palette"
+        class="command-palette"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Search the suite"
+        hidden
+      >
+        <label for="command-input">Search tools and workflows</label>
+        <input
+          id="command-input"
+          type="text"
+          role="combobox"
+          aria-expanded="true"
+          aria-controls="command-results"
+          aria-autocomplete="list"
+          autocomplete="off"
+        />
+        <ul id="command-results" role="listbox" aria-label="Search results"></ul>
+      </div>
+      <section
+        id="continue"
+        class="continue section-shell"
+        aria-label="Continue where you left off"
+        hidden
+      ></section>
       <section id="top" class="hero section-shell" aria-labelledby="hero-title">
         <div class="hero-copy">
           <h1 id="hero-title">Open Access UK</h1>
@@ -419,6 +454,7 @@
             </p>
           </article>
         </div>
+        <div id="privacy-centre" class="privacy-centre" aria-label="My local data"></div>
       </section>
     </main>
 

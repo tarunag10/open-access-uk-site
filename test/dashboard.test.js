@@ -96,6 +96,9 @@ test('homepage accessibility controls are wired', () => {
   assert.match(app, /setAttribute\('aria-expanded'/);
   assert.match(app, /setPressed/);
   assert.match(app, /ArrowRight/);
+  assert.match(html, /id="command-palette"/);
+  assert.match(html, /id="command-input"/);
+  assert.match(html, /role="listbox"/);
 });
 
 test('security headers are configured for Vercel', () => {
