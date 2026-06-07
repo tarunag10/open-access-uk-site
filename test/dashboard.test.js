@@ -8,11 +8,10 @@ const repositories = fs.readFileSync('src/repositories.js', 'utf8');
 const vercel = fs.readFileSync('vercel.json', 'utf8');
 
 test('gtm page has the required brand, nav, and primary actions', () => {
-  assert.match(html, /<h1 id="hero-title">Open Access UK<\/h1>/);
-  assert.match(html, /Open-source tools for fairer public services/);
-  assert.match(html, /openaccessuk\.vercel\.app/);
-  assert.match(html, /Explore the toolkit/);
-  assert.match(html, /View GitHub/);
+  assert.match(html, /<h1 id="hero-title">Public-service tools that stay on your side<\/h1>/);
+  assert.match(html, /local-first toolkit for everyday public accountability/);
+  assert.match(html, /Start with a tool/);
+  assert.match(html, /Plan a route/);
   for (const section of [
     'toolkit',
     'workflows',

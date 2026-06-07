@@ -22,10 +22,10 @@ if (!vercel.includes('Content-Security-Policy')) throw new Error('Missing CSP he
 
 for (const requiredText of [
   'Open Access UK',
-  'Open-source tools for fairer public services',
-  'openaccessuk.vercel.app',
-  'Explore the toolkit',
-  'View GitHub',
+  'Public-service tools that stay on your side',
+  'local-first toolkit for everyday public accountability',
+  'Start with a tool',
+  'Plan a route',
   'https://letter-generator-psi.vercel.app',
   'https://public-service-directory.vercel.app'
 ]) {

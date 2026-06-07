@@ -2,12 +2,14 @@ import { expect, test } from '@playwright/test';
 
 test('homepage loads and core navigation works', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'Open Access UK' })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'Public-service tools that stay on your side' })
+  ).toBeVisible();
   await page.getByRole('link', { name: 'Skip to content' }).focus();
   await expect(page.locator('#main')).toBeVisible();
   await page
     .getByRole('navigation', { name: 'Primary' })
-    .getByRole('link', { name: 'Toolkit' })
+    .getByRole('link', { name: 'Tools' })
     .click();
   await expect(page.locator('#toolkit')).toBeInViewport();
 });

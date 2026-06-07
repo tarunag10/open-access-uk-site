@@ -1,146 +1,25 @@
-// ===== src/app.js =====
-// ===== src/app.js =====
+// ===== ../shared/theme/index.mjs =====
+const __m1__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_shared_theme_index_mjs = (() => {
+// shared/theme/index.mjs
+const THEME_STORAGE_KEY = 'open-access-uk:theme';
 
+const VALID = new Set(['light', 'dark']);
 
-
-
-
-
-
-
-const workflowDetail = document.querySelector('#workflow-detail');
-const workflowCards = [...document.querySelectorAll('[data-workflow]')];
-const productPanels = [...document.querySelectorAll('[data-product-panel]')];
-const copyTokens = document.querySelector('#copyTokens');
-const copyStatus = document.querySelector('#copy-status');
-const navToggle = document.querySelector('.nav-toggle');
-const primaryNav = document.querySelector('#primary-nav');
-
-function renderToolCards() {
-  const grid = document.querySelector('[data-tool-grid]');
-  if (!grid || !publicRepositories.length) return;
-
-  const cards = publicRepositories.map((repo, index) => {
-    const article = document.createElement('article');
-    article.className = `tool-card${index === 0 ? ' is-active' : ''}`;
-    article.dataset.tool = repo.toolKey;
-
-    const icon = textElement('span', repo.icon);
-    icon.className = `tool-icon ${repo.iconClass}`;
-
-    const heading = textElement('h3', repo.name);
-    const summary = textElement('p', repo.summary);
-    const risk = textElement('p', `${repo.risk_level} risk · ${repo.status}`);
-    risk.className = 'tool-meta';
-
-    const links = document.createElement('div');
-    links.className = 'tool-links';
-    const demo = document.createElement('a');
-    demo.href = repo.demo;
-    demo.textContent = 'Launch tool →';
-    const github = document.createElement('a');
-    github.href = repo.githubUrl;
-    github.textContent = 'GitHub';
-    links.append(demo, github);
-
-    article.append(icon, heading, summary, risk, links);
-    return article;
-  });
-
-  grid.replaceChildren(...cards);
+function resolveInitialTheme({ stored, prefersDark } = {}) {
+  if (VALID.has(stored)) return stored;
+  return prefersDark ? 'dark' : 'light';
 }
 
-function renderWorkflow(key) {
-  const workflow = workflows[key] || workflows.information;
-  if (!workflowDetail) return;
-
-  const heading = textElement('h3', workflow.title);
-  const body = textElement('p', workflow.body);
-  const list = document.createElement('ol');
-  workflow.steps.forEach((step) => list.append(textElement('li', step)));
-
-  workflowDetail.replaceChildren(heading, body, list);
-  setPressed(workflowCards, key);
-  track('workflow_selected', { key });
+function nextTheme(current) {
+  return current === 'dark' ? 'light' : 'dark';
 }
 
-function activateTool(key) {
-  [...document.querySelectorAll('[data-tool]')].forEach((card) =>
-    card.classList.toggle('is-active', card.dataset.tool === key)
-  );
-  productPanels.forEach((panel) => {
-    panel.style.borderColor = panel.dataset.productPanel === key ? 'rgba(100, 210, 255, 0.72)' : '';
-    panel.style.transform = panel.dataset.productPanel === key ? 'translateY(-4px)' : '';
-  });
-}
-
-function selectAdjacentWorkflow(current, direction) {
-  const index = workflowCards.indexOf(current);
-  const next = workflowCards[(index + direction + workflowCards.length) % workflowCards.length];
-  next?.focus();
-  if (next?.dataset.workflow) renderWorkflow(next.dataset.workflow);
-}
-
-workflowCards.forEach((card) => {
-  card.addEventListener('click', () => renderWorkflow(card.dataset.workflow));
-  card.addEventListener('keydown', (event) => {
-    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
-      event.preventDefault();
-      selectAdjacentWorkflow(card, 1);
-    }
-    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
-      event.preventDefault();
-      selectAdjacentWorkflow(card, -1);
-    }
-  });
-});
-
-function bindToolCards() {
-  [...document.querySelectorAll('[data-tool]')].forEach((card) => {
-    card.addEventListener('mouseenter', () => activateTool(card.dataset.tool));
-    card.addEventListener('focusin', () => activateTool(card.dataset.tool));
-  });
-}
-
-navToggle?.addEventListener('click', () => {
-  const open = navToggle.getAttribute('aria-expanded') !== 'true';
-  navToggle.setAttribute('aria-expanded', String(open));
-  primaryNav?.classList.toggle('is-open', open);
-});
-
-primaryNav?.addEventListener('click', (event) => {
-  if (!event.target.closest('a')) return;
-  navToggle?.setAttribute('aria-expanded', 'false');
-  primaryNav.classList.remove('is-open');
-});
-
-copyTokens?.addEventListener('click', async () => {
-  const tokenText = document.querySelector('.code-window code')?.textContent.trim() || '';
-  try {
-    await navigator.clipboard.writeText(tokenText);
-    copyTokens.textContent = 'Copied';
-    setStatus(copyStatus, 'Design tokens copied.');
-  } catch {
-    copyTokens.textContent = 'Select and copy';
-    setStatus(copyStatus, 'Copy failed. Select and copy the tokens manually.');
-  }
-  window.setTimeout(() => {
-    copyTokens.textContent = 'Copy tokens';
-  }, 1800);
-});
-
-renderToolCards();
-bindToolCards();
-renderWorkflow('information');
-
-initTheme('#theme-toggle');
-initPrivacyCentre('#privacy-centre');
-initCommandPalette({ root: document });
-initContinue('#continue');
-
+return { THEME_STORAGE_KEY, resolveInitialTheme, nextTheme };
+})();
 
 // ===== src/theme.js =====
-const __m1__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_open_access_uk_site_src_theme_js = (() => {
+const __m2__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_open_access_uk_site_src_theme_js = (() => {
+const { THEME_STORAGE_KEY: THEME_STORAGE_KEY, resolveInitialTheme: resolveInitialTheme, nextTheme: nextTheme } = __m1__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_shared_theme_index_mjs;
 // <app>/src/theme.js
 
 function readStored() {
@@ -181,25 +60,6 @@ function initTheme(toggleSelector = '#theme-toggle') {
 }
 
 return { initTheme };
-})();
-
-// ===== ../shared/theme/index.mjs =====
-const __m2__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_shared_theme_index_mjs = (() => {
-// shared/theme/index.mjs
-const THEME_STORAGE_KEY = 'open-access-uk:theme';
-
-const VALID = new Set(['light', 'dark']);
-
-function resolveInitialTheme({ stored, prefersDark } = {}) {
-  if (VALID.has(stored)) return stored;
-  return prefersDark ? 'dark' : 'light';
-}
-
-function nextTheme(current) {
-  return current === 'dark' ? 'light' : 'dark';
-}
-
-return { THEME_STORAGE_KEY, resolveInitialTheme, nextTheme };
 })();
 
 // ===== src/analytics.js =====
@@ -409,63 +269,8 @@ const workflows = {
 return { workflows };
 })();
 
-// ===== src/privacy-centre.js =====
-const __m7__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_open_access_uk_site_src_privacy_centre_js = (() => {
-
-function readPresence(key) {
-  try {
-    const value = window.localStorage.getItem(key);
-    return value === null ? null : value.length;
-  } catch {
-    return null;
-  }
-}
-
-function initPrivacyCentre(mountSelector = '#privacy-centre') {
-  const mount = document.querySelector(mountSelector);
-  if (!mount) return;
-
-  function render() {
-    const list = document.createElement('ul');
-    list.className = 'privacy-list';
-    list.setAttribute('aria-label', 'Local data stored in this browser');
-    for (const item of storageRegistry) {
-      const size = readPresence(item.key);
-      const li = document.createElement('li');
-      li.className = 'privacy-item';
-      const title = document.createElement('strong');
-      title.textContent = `${item.label} (${item.tool})`;
-      const detail = document.createElement('p');
-      detail.textContent =
-        size === null
-          ? `${item.contains} — nothing stored.`
-          : `${item.contains} — ${size} characters stored.`;
-      li.append(title, detail);
-      list.append(li);
-    }
-    const clearAll = document.createElement('button');
-    clearAll.type = 'button';
-    clearAll.className = 'secondary';
-    clearAll.textContent = 'Clear all local data';
-    clearAll.addEventListener('click', () => {
-      clearKnownStorage(window.localStorage);
-      render();
-      status.textContent = 'Cleared all known local data from this browser.';
-    });
-    const status = document.createElement('p');
-    status.setAttribute('role', 'status');
-    status.setAttribute('aria-live', 'polite');
-    mount.replaceChildren(list, clearAll, status);
-  }
-
-  render();
-}
-
-return { initPrivacyCentre };
-})();
-
 // ===== ../shared/privacy/local-storage.mjs =====
-const __m8__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_shared_privacy_local_storage_mjs = (() => {
+const __m7__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_shared_privacy_local_storage_mjs = (() => {
 const storageRegistry = [
   {
     key: 'open-access-uk:letter-generator:draft',
@@ -590,80 +395,64 @@ function describeStorageRegistry(registry = storageRegistry) {
 return { storageRegistry, clearKnownStorage, describeStorageRegistry };
 })();
 
-// ===== src/command-palette.js =====
-const __m9__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_open_access_uk_site_src_command_palette_js = (() => {
+// ===== src/privacy-centre.js =====
+const __m8__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_open_access_uk_site_src_privacy_centre_js = (() => {
+const { storageRegistry: storageRegistry, clearKnownStorage: clearKnownStorage } = __m7__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_shared_privacy_local_storage_mjs;
 
-function initCommandPalette({ root = document } = {}) {
-  const dialog = root.querySelector('#command-palette');
-  const input = root.querySelector('#command-input');
-  const list = root.querySelector('#command-results');
-  const openButton = root.querySelector('#command-open');
-  if (!dialog || !input || !list) return;
-
-  let active = -1;
-  let current = [];
-
-  function render(query) {
-    current = query ? searchSuite(query) : suiteIndex.map((e) => ({ ...e }));
-    active = current.length ? 0 : -1;
-    list.replaceChildren(
-      ...current.map((entry, index) => {
-        const li = document.createElement('li');
-        const link = document.createElement('a');
-        link.href = entry.url;
-        link.textContent = entry.title;
-        link.setAttribute('role', 'option');
-        link.id = `command-option-${index}`;
-        link.setAttribute('aria-selected', String(index === active));
-        li.append(link);
-        return li;
-      })
-    );
-    input.setAttribute('aria-activedescendant', active >= 0 ? `command-option-${active}` : '');
+function readPresence(key) {
+  try {
+    const value = window.localStorage.getItem(key);
+    return value === null ? null : value.length;
+  } catch {
+    return null;
   }
-
-  function open() {
-    dialog.hidden = false;
-    input.value = '';
-    render('');
-    input.focus();
-  }
-  function close() {
-    dialog.hidden = true;
-    openButton?.focus();
-  }
-
-  openButton?.addEventListener('click', open);
-  document.addEventListener('keydown', (event) => {
-    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
-      event.preventDefault();
-      dialog.hidden ? open() : close();
-    } else if (!dialog.hidden && event.key === 'Escape') {
-      close();
-    }
-  });
-  input.addEventListener('input', () => render(input.value));
-  input.addEventListener('keydown', (event) => {
-    if (event.key === 'ArrowDown') {
-      event.preventDefault();
-      active = Math.min(active + 1, current.length - 1);
-      render(input.value);
-    } else if (event.key === 'ArrowUp') {
-      event.preventDefault();
-      active = Math.max(active - 1, 0);
-      render(input.value);
-    } else if (event.key === 'Enter' && active >= 0) {
-      event.preventDefault();
-      window.location.href = current[active].url;
-    }
-  });
 }
 
-return { initCommandPalette };
+function initPrivacyCentre(mountSelector = '#privacy-centre') {
+  const mount = document.querySelector(mountSelector);
+  if (!mount) return;
+
+  function render() {
+    const list = document.createElement('ul');
+    list.className = 'privacy-list';
+    list.setAttribute('aria-label', 'Local data stored in this browser');
+    for (const item of storageRegistry) {
+      const size = readPresence(item.key);
+      const li = document.createElement('li');
+      li.className = 'privacy-item';
+      const title = document.createElement('strong');
+      title.textContent = `${item.label} (${item.tool})`;
+      const detail = document.createElement('p');
+      detail.textContent =
+        size === null
+          ? `${item.contains} — nothing stored.`
+          : `${item.contains} — ${size} characters stored.`;
+      li.append(title, detail);
+      list.append(li);
+    }
+    const clearAll = document.createElement('button');
+    clearAll.type = 'button';
+    clearAll.className = 'secondary';
+    clearAll.textContent = 'Clear all local data';
+    clearAll.addEventListener('click', () => {
+      clearKnownStorage(window.localStorage);
+      render();
+      status.textContent = 'Cleared all known local data from this browser.';
+    });
+    const status = document.createElement('p');
+    status.setAttribute('role', 'status');
+    status.setAttribute('aria-live', 'polite');
+    mount.replaceChildren(list, clearAll, status);
+  }
+
+  render();
+}
+
+return { initPrivacyCentre };
 })();
 
 // ===== ../shared/search/index.mjs =====
-const __m10__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_shared_search_index_mjs = (() => {
+const __m9__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_shared_search_index_mjs = (() => {
 // Static client-side suite index + ranked substring search. No network.
 
 const suiteIndex = [
@@ -750,8 +539,82 @@ function searchSuite(query, index = suiteIndex) {
 return { suiteIndex, searchSuite };
 })();
 
+// ===== src/command-palette.js =====
+const __m10__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_open_access_uk_site_src_command_palette_js = (() => {
+const { searchSuite: searchSuite, suiteIndex: suiteIndex } = __m9__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_shared_search_index_mjs;
+
+function initCommandPalette({ root = document } = {}) {
+  const dialog = root.querySelector('#command-palette');
+  const input = root.querySelector('#command-input');
+  const list = root.querySelector('#command-results');
+  const openButton = root.querySelector('#command-open');
+  if (!dialog || !input || !list) return;
+
+  let active = -1;
+  let current = [];
+
+  function render(query) {
+    current = query ? searchSuite(query) : suiteIndex.map((e) => ({ ...e }));
+    active = current.length ? 0 : -1;
+    list.replaceChildren(
+      ...current.map((entry, index) => {
+        const li = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = entry.url;
+        link.textContent = entry.title;
+        link.setAttribute('role', 'option');
+        link.id = `command-option-${index}`;
+        link.setAttribute('aria-selected', String(index === active));
+        li.append(link);
+        return li;
+      })
+    );
+    input.setAttribute('aria-activedescendant', active >= 0 ? `command-option-${active}` : '');
+  }
+
+  function open() {
+    dialog.hidden = false;
+    input.value = '';
+    render('');
+    input.focus();
+  }
+  function close() {
+    dialog.hidden = true;
+    openButton?.focus();
+  }
+
+  openButton?.addEventListener('click', open);
+  document.addEventListener('keydown', (event) => {
+    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+      event.preventDefault();
+      dialog.hidden ? open() : close();
+    } else if (!dialog.hidden && event.key === 'Escape') {
+      close();
+    }
+  });
+  input.addEventListener('input', () => render(input.value));
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      active = Math.min(active + 1, current.length - 1);
+      render(input.value);
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      active = Math.max(active - 1, 0);
+      render(input.value);
+    } else if (event.key === 'Enter' && active >= 0) {
+      event.preventDefault();
+      window.location.href = current[active].url;
+    }
+  });
+}
+
+return { initCommandPalette };
+})();
+
 // ===== src/continue.js =====
 const __m11__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_open_access_uk_site_src_continue_js = (() => {
+const { storageRegistry: storageRegistry } = __m7__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_shared_privacy_local_storage_mjs;
 
 const TOOL_URLS = {
   'letter-generator': 'https://letter-generator-psi.vercel.app',
@@ -801,3 +664,142 @@ function initContinue(mountSelector = '#continue') {
 return { initContinue };
 })();
 
+// ===== src/app.js =====
+const { initTheme: initTheme } = __m2__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_open_access_uk_site_src_theme_js;
+const { track: track } = __m3__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_open_access_uk_site_src_analytics_js;
+const { textElement: textElement, setPressed: setPressed, setStatus: setStatus } = __m4__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_open_access_uk_site_src_dom_js;
+const { publicRepositories: publicRepositories } = __m5__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_open_access_uk_site_src_repositories_js;
+const { workflows: workflows } = __m6__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_open_access_uk_site_src_workflows_js;
+const { initPrivacyCentre: initPrivacyCentre } = __m8__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_open_access_uk_site_src_privacy_centre_js;
+const { initCommandPalette: initCommandPalette } = __m10__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_open_access_uk_site_src_command_palette_js;
+const { initContinue: initContinue } = __m11__Users_tarunagarwal_Documents_1_App_Developement_Tarun_Open_Access_UK_open_access_uk_site_src_continue_js;
+
+const workflowDetail = document.querySelector('#workflow-detail');
+const workflowCards = [...document.querySelectorAll('[data-workflow]')];
+const productPanels = [...document.querySelectorAll('[data-product-panel]')];
+const copyTokens = document.querySelector('#copyTokens');
+const copyStatus = document.querySelector('#copy-status');
+const navToggle = document.querySelector('.nav-toggle');
+const primaryNav = document.querySelector('#primary-nav');
+
+function renderToolCards() {
+  const grid = document.querySelector('[data-tool-grid]');
+  if (!grid || !publicRepositories.length) return;
+
+  const cards = publicRepositories.map((repo, index) => {
+    const article = document.createElement('article');
+    article.className = `tool-card${index === 0 ? ' is-active' : ''}`;
+    article.dataset.tool = repo.toolKey;
+
+    const icon = textElement('span', repo.icon);
+    icon.className = `tool-icon ${repo.iconClass}`;
+
+    const heading = textElement('h3', repo.name);
+    const summary = textElement('p', repo.summary);
+    const risk = textElement('p', `${repo.risk_level} risk · ${repo.status}`);
+    risk.className = 'tool-meta';
+
+    const links = document.createElement('div');
+    links.className = 'tool-links';
+    const demo = document.createElement('a');
+    demo.href = repo.demo;
+    demo.textContent = 'Launch tool';
+    const github = document.createElement('a');
+    github.href = repo.githubUrl;
+    github.textContent = 'GitHub';
+    links.append(demo, github);
+
+    article.append(icon, heading, summary, risk, links);
+    return article;
+  });
+
+  grid.replaceChildren(...cards);
+}
+
+function renderWorkflow(key) {
+  const workflow = workflows[key] || workflows.information;
+  if (!workflowDetail) return;
+
+  const heading = textElement('h3', workflow.title);
+  const body = textElement('p', workflow.body);
+  const list = document.createElement('ol');
+  workflow.steps.forEach((step) => list.append(textElement('li', step)));
+
+  workflowDetail.replaceChildren(heading, body, list);
+  setPressed(workflowCards, key);
+  track('workflow_selected', { key });
+}
+
+function activateTool(key) {
+  [...document.querySelectorAll('[data-tool]')].forEach((card) =>
+    card.classList.toggle('is-active', card.dataset.tool === key)
+  );
+  productPanels.forEach((panel) => {
+    panel.style.borderColor = panel.dataset.productPanel === key ? 'var(--red)' : '';
+    panel.style.transform = panel.dataset.productPanel === key ? 'translateY(-4px)' : '';
+  });
+}
+
+function selectAdjacentWorkflow(current, direction) {
+  const index = workflowCards.indexOf(current);
+  const next = workflowCards[(index + direction + workflowCards.length) % workflowCards.length];
+  next?.focus();
+  if (next?.dataset.workflow) renderWorkflow(next.dataset.workflow);
+}
+
+workflowCards.forEach((card) => {
+  card.addEventListener('click', () => renderWorkflow(card.dataset.workflow));
+  card.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      event.preventDefault();
+      selectAdjacentWorkflow(card, 1);
+    }
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      selectAdjacentWorkflow(card, -1);
+    }
+  });
+});
+
+function bindToolCards() {
+  [...document.querySelectorAll('[data-tool]')].forEach((card) => {
+    card.addEventListener('mouseenter', () => activateTool(card.dataset.tool));
+    card.addEventListener('focusin', () => activateTool(card.dataset.tool));
+  });
+}
+
+navToggle?.addEventListener('click', () => {
+  const open = navToggle.getAttribute('aria-expanded') !== 'true';
+  navToggle.setAttribute('aria-expanded', String(open));
+  primaryNav?.classList.toggle('is-open', open);
+});
+
+primaryNav?.addEventListener('click', (event) => {
+  if (!event.target.closest('a')) return;
+  navToggle?.setAttribute('aria-expanded', 'false');
+  primaryNav.classList.remove('is-open');
+});
+
+copyTokens?.addEventListener('click', async () => {
+  const tokenText = document.querySelector('.code-window code')?.textContent.trim() || '';
+  try {
+    await navigator.clipboard.writeText(tokenText);
+    copyTokens.textContent = 'Copied';
+    setStatus(copyStatus, 'Design tokens copied.');
+  } catch {
+    copyTokens.textContent = 'Select and copy';
+    setStatus(copyStatus, 'Copy failed. Select and copy the tokens manually.');
+  }
+  window.setTimeout(() => {
+    copyTokens.textContent = 'Copy tokens';
+  }, 1800);
+});
+
+renderToolCards();
+bindToolCards();
+renderWorkflow('information');
+
+initTheme('#theme-toggle');
+initPrivacyCentre('#privacy-centre');
+initCommandPalette({ root: document });
+initContinue('#continue');
