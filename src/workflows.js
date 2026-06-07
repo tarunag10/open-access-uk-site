@@ -1,11 +1,12 @@
 export const workflows = {
   information: {
     title: 'Get information',
-    body: 'Start with a letter or template, keep the request focused, export a copy, and use the directory to understand where to go next.',
+    body: 'Start with a letter or template, keep the request focused, export a copy, use the FOI tracker to manage deadlines across authorities, and use the directory to understand where to go next.',
     steps: [
       'Choose a request type.',
       'Draft locally in the browser.',
-      'Export a copy and track replies.'
+      'Track FOI deadlines in the FOI tracker.',
+      'Export a copy and keep notes.'
     ]
   },
   forms: {
@@ -19,8 +20,13 @@ export const workflows = {
   },
   escalate: {
     title: 'Escalate a case',
-    body: 'Map the right escalation route, gather evidence, save a local plan, and keep official links close to the next action.',
-    steps: ['Search the issue.', 'Build an action plan.', 'Save or print the checklist.']
+    body: 'Map the right escalation route, gather evidence, save a local plan in the Case Builder, and keep official links close to the next action.',
+    steps: [
+      'Search the issue.',
+      'Build an action plan in the Case Builder.',
+      'Add evidence and journey steps.',
+      'Export a handoff pack for an adviser.'
+    ]
   },
   contribute: {
     title: 'Build or contribute',

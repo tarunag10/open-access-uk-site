@@ -33,7 +33,7 @@ for (const requiredText of [
 }
 
 const toolCards = html.match(/data-tool=/g) || [];
-if (toolCards.length !== 5) throw new Error(`Expected 5 toolkit cards, found ${toolCards.length}`);
+if (toolCards.length !== 7) throw new Error(`Expected 7 toolkit cards, found ${toolCards.length}`);
 
 const workflowCards = html.match(/data-workflow=/g) || [];
 if (workflowCards.length !== 4)
@@ -45,7 +45,9 @@ for (const slug of [
   'accessible-forms',
   'public-service-directory',
   'legal-templates',
-  'design-system'
+  'design-system',
+  'foi-tracker',
+  'case-builder'
 ]) {
   if (!html.includes(`https://github.com/tarunag10/${slug}`)) {
     throw new Error(`Missing GitHub link: ${slug}`);

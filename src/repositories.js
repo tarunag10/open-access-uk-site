@@ -84,5 +84,39 @@ export const publicRepositories = [
     "iconClass": "cyan",
     "icon": "⌘",
     "summary": "Use accessible components, tokens, and implementation recipes."
+  },
+  {
+    "id": "foi-tracker",
+    "name": "FOI Response Tracker",
+    "repo": "tarunag10/foi-tracker",
+    "demo": "https://foi-tracker.vercel.app/",
+    "category": "foi",
+    "status": "usable",
+    "risk_level": "high",
+    "maintainers": [
+      "tarunag10"
+    ],
+    "githubUrl": "https://github.com/tarunag10/foi-tracker",
+    "toolKey": "foi",
+    "iconClass": "amber",
+    "icon": "◐",
+    "summary": "Track FOI requests, deadlines, and escalations across public authorities."
+  },
+  {
+    "id": "case-builder",
+    "name": "Case Builder",
+    "repo": "tarunag10/case-builder",
+    "demo": "https://case-builder.vercel.app/",
+    "category": "case-management",
+    "status": "usable",
+    "risk_level": "medium",
+    "maintainers": [
+      "tarunag10"
+    ],
+    "githubUrl": "https://github.com/tarunag10/case-builder",
+    "toolKey": "case",
+    "iconClass": "rose",
+    "icon": "◧",
+    "summary": "Combine letters, evidence, deadlines, and journeys into one portable case file."
   }
 ];

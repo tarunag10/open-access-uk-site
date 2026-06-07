@@ -42,7 +42,9 @@ test('gtm page links all public GitHub repos', () => {
     'accessible-forms',
     'public-service-directory',
     'legal-templates',
-    'design-system'
+    'design-system',
+    'foi-tracker',
+    'case-builder'
   ]) {
     assert.match(html, new RegExp(`https://github\\.com/tarunag10/${slug}`));
   }
@@ -54,15 +56,17 @@ test('gtm page links each live mini-product page', () => {
     'https://accessible-forms-two.vercel.app',
     'https://public-service-directory.vercel.app',
     'https://legal-templates-seven.vercel.app',
-    'https://design-system-two-delta.vercel.app'
+    'https://design-system-two-delta.vercel.app',
+    'https://foi-tracker.vercel.app',
+    'https://case-builder.vercel.app'
   ]) {
     assert.ok(html.includes(url), `missing ${url}`);
   }
 });
 
 test('product and workflow interactions are wired in browser JavaScript', () => {
-  assert.equal((html.match(/data-product-panel=/g) || []).length, 5);
-  assert.equal((html.match(/data-tool=/g) || []).length, 5);
+  assert.equal((html.match(/data-product-panel=/g) || []).length, 7);
+  assert.equal((html.match(/data-tool=/g) || []).length, 7);
   assert.equal((html.match(/data-workflow=/g) || []).length, 4);
   assert.match(app, /function renderWorkflow/);
   assert.match(app, /publicRepositories/);
@@ -79,7 +83,9 @@ test('homepage tool cards are backed by generated repository metadata', () => {
     'Accessible Public Forms',
     'Public Service Directory',
     'Legal Templates UK',
-    'Open Access Design System'
+    'Open Access Design System',
+    'FOI Response Tracker',
+    'Case Builder'
   ]) {
     assert.match(repositories, new RegExp(expected));
   }
